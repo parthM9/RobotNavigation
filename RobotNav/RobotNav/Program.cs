@@ -16,9 +16,10 @@ namespace RobotNav
             //Read test file and populate data to suitable variables
             load.loadData();
             load.printInfo();
-
+            worldMap Map = new worldMap(load.MapSize, load.Wall);
+            Map.printMap();
             Console.ReadLine();
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+        
         }
     }
 }
