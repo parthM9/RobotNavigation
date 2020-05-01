@@ -17,7 +17,13 @@ namespace RobotNav
             load.loadData();
             load.printInfo();
             worldMap Map = new worldMap(load.MapSize, load.Wall);
-            Map.printMap();
+          
+            navigator ai = new navigator(load.InitialPositon, load.GoalPosition, Map);
+
+            
+
+            //Response equivalent method to console argument
+            Console.WriteLine(ai.DfsSearch());
             Console.ReadLine();
         
         }

@@ -48,7 +48,9 @@
     <Compile Include="point2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="navigator.cs" />
     <Compile Include="stringCon.cs" />
+    <Compile Include="UI.cs" />
     <Compile Include="worldMap.cs" />
   </ItemGroup>
   <ItemGroup>
