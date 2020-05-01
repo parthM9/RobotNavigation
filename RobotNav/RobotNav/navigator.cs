@@ -151,6 +151,219 @@ namespace RobotNav
                 return "No solution";
             }
         }
+        //Breadth-First Search
+        public string BfsSearch()
+        {
+            if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
+            {
+                return "The solution is the initial positition, no movement required";
+            }
+            else
+            {
+                //Initialize data structure for open nodes and visited nodes
+                Queue<point2D> open = new Queue<point2D>();
+                List<point2D> visited = new List<point2D>();
+
+                //Initialize expanding node
+                point2D visitedNode;
+
+                open.Enqueue(pos);
+
+                while (open.Count != 0)
+                {
+                    //Expand the first node of the queue
+                    visitedNode = open.Dequeue();
+                    visited.Add(visitedNode);
+
+                    //Initialize UI
+                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                    Thread.Sleep(100);
+
+                    foreach (grid g in robotMap.Grids)
+                    {
+                        //Verify the expanding grid is within the map
+                        if ((visitedNode.X == g.Pos.X) && (visitedNode.Y == g.Pos.Y))
+                        {
+                            //Verify if adjacent nodes are available
+                            if (g.Paths.Count != 0)
+                            {
+                                foreach (path p in g.Paths)
+                                {
+                                    //Repeated state checking
+                                    if ((!visited.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y)) && !open.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
+                                    {
+                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+
+                                        //Enqueue available paths to the frontier list
+                                        open.Enqueue(p.Location.Pos);
+                                    }
+                                }
+                            }
+
+                            //If solution is found
+                            if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
+                            {
+                                return produceSolution("BFS", Pos, goalPos, visited);
+                            }
+                        }
+                    }
+                }
+
+                //If no solution is found
+                return "No solution";
+            }
+        }
+
+
+        //Greedy Best First Search
+        public string GbfsSearch()
+        {
+            //Return solution if initial position is goal
+            if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
+            {
+                return "The solution is the initial positition, no movement required";
+            }
+            else
+            {
+                //Initialize data structure for open nodes and visited nodes
+                List<point2D> open = new List<point2D>();
+                List<point2D> visited = new List<point2D>();
+
+                point2D visitedNode;
+                open.Add(pos);
+
+                while (open.Count != 0)
+                {
+                    //Sort the open list order by distance of the grid to goal
+                    open = open.OrderBy(s => s.DistanceToGoal).ToList();
+
+                    //Expand the first node of the priority list
+                    visitedNode = open.First();
+                    open.Remove(open.First());
+                    visited.Add(visitedNode);
+
+                    //Initialize UI
+                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                    Thread.Sleep(200);
+
+                    foreach (grid g in robotMap.Grids)
+                    {
+                        //Verify the expanding grid is within the map
+                        if ((visitedNode.X == g.Pos.X) && (visitedNode.Y == g.Pos.Y))
+                        {
+                            //Verify if adjacent nodes are available
+                            if (g.Paths.Count != 0)
+                            {
+                                foreach (path p in g.Paths)
+                                {
+                                    //Repeated state checking
+                                    if (!visited.Exists(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
+                                    {
+                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+
+                                        //Calculate heuristic value h(n)
+                                        p.Location.Pos.DistanceToGoal = Math.Sqrt(Math.Pow(goalPos.X - p.Location.Pos.X, 2) + Math.Pow(goalPos.Y - p.Location.Pos.Y, 2));
+
+                                        //Add adjacent nodes to the open list
+                                        open.Add(p.Location.Pos);
+                                    }
+                                }
+                            }
+
+                            //If solution is found
+                            if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
+                            {
+                                return produceSolution("GBFS", Pos, goalPos, visited);
+                            }
+                        }
+                    }
+                }
+
+                //If no solution is found
+                return "No solution";
+            }
+        }
+
+
+        //A* Search
+        public string AStar()
+        {
+            //Return solution if initial position is goal
+            if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
+            {
+                return "The solution is the initial positition, no movement required";
+            }
+            else
+            {
+                //Initialize data structure for open nodes and visited nodes
+                List<point2D> open = new List<point2D>();
+                List<point2D> visited = new List<point2D>();
+
+                //Initialize expanding node
+                point2D visitedNode;
+
+                //Put the initial position in the open list
+                open.Add(pos);
+
+                //Initial stationary cost
+                pos.GScore = 0;
+
+                while (open.Count != 0)
+                {
+                    //Sort the open list order by f(n)
+                    open = open.OrderBy(s => s.FScore).ToList();
+
+                    //Expand the first node of the priority list
+                    visitedNode = open.First();
+                    open.Remove(open.First());
+
+                    //Add the expanded node to the visisted list
+                    visited.Add(visitedNode);
+
+                    //Initialize UI
+                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                    Thread.Sleep(100);
+
+                    foreach (grid g in robotMap.Grids)
+                    {
+                        //Verify the expanding grid is within the map
+                        if ((visitedNode.X == g.Pos.X) && (visitedNode.Y == g.Pos.Y))
+                        {
+                            //Verify if adjacent nodes are available
+                            if (g.Paths.Count != 0)
+                            {
+                                foreach (path p in g.Paths)
+                                {
+                                    //Repeated state checking
+                                    if ((!visited.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y)) && !open.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
+                                    {
+                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+                                        //Calculate g(n) as the cost so far from the start to the current node
+                                        p.Location.Pos.GScore = visitedNode.GScore + 1;
+
+                                        //Calculate f(n) value
+                                        p.Location.Pos.FScore = p.Location.Pos.GScore + Math.Sqrt(Math.Pow(goalPos.X - p.Location.Pos.X, 2) + Math.Pow(goalPos.Y - p.Location.Pos.Y, 2));
+                                        //p.Location.Pos.FScore = p.Location.Pos.GScore + Math.Abs(goalPos.X - p.Location.Pos.X) + Math.Abs(goalPos.Y - p.Location.Pos.Y);
+
+                                        //Add adjacent nodes to the open list
+                                        open.Add(p.Location.Pos);
+                                    }
+                                }
+                            }
+
+                            //If solution is found
+                            if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
+                            {
+                                return produceSolution("A*", Pos, goalPos, visited);
+                            }
+                        }
+                    }
+                }
+
+                //If no solution is found
+                return "No solution";
+            }
+        }
         public string produceSolution(string method, point2D initial, point2D child, List<point2D> expanded)
         {
             string solution = "";

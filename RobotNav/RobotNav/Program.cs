@@ -20,10 +20,32 @@ namespace RobotNav
           
             navigator ai = new navigator(load.InitialPositon, load.GoalPosition, Map);
 
-            
 
-            //Response equivalent method to console argument
-            Console.WriteLine(ai.DfsSearch());
+
+            Console.WriteLine("What would you like to perform?");
+            Console.WriteLine("1.DFS \r\n2.BFS \r\n3.GBFS \r\n4.Astar");
+            Console.WriteLine("Enter the text value you wish to run(Eg.DFS)");
+            string val="";
+            val = Console.ReadLine();
+          
+            switch (val.ToLower())
+            {
+                case "dfs":
+                    Console.WriteLine(ai.DfsSearch());
+                    break;
+                case "bfs":
+                    Console.WriteLine(ai.BfsSearch());
+                    break;
+                case "gbfs":
+                    Console.WriteLine(ai.GbfsSearch());
+                    break;
+                case "astar":
+                    Console.WriteLine(ai.AStar());
+                    break;
+                default:
+                    Console.WriteLine("No search method called " + args[1]);
+                    break;
+            }
             Console.ReadLine();
         
         }
