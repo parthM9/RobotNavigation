@@ -8,12 +8,12 @@ namespace RobotNav
 {
     class grid
     {
-        private point2D pos;
+        private posContain pos;
         private bool isWall;
         private List<path> paths = new List<path>();
 
 
-        public point2D Pos
+        public posContain Pos
         {
             get
             {
@@ -21,7 +21,7 @@ namespace RobotNav
             }
         }
 
-        public grid(point2D ppos, bool wall)
+        public grid(posContain ppos, bool wall)
         {
             pos = ppos;
             isWall = wall;

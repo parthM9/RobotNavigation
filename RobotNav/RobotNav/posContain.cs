@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace RobotNav
 {
-    class point2D
+    class posContain
     {
         private int x;
         private int y;
         private double distanceToGoal;
         private double fScore;
         private double gScore;
-        private point2D parentNode;
+        private posContain parentNode;
 
-        public point2D(int px, int py)
+        public posContain(int px, int py)
         {
             x = px;
             y = py;
         }
 
-        public point2D(point2D parent)
+        public posContain(posContain parent)
         {
             x = parent.X;
             y = parent.Y;
@@ -100,7 +100,7 @@ namespace RobotNav
             }
         }
 
-        public point2D ParentNode
+        public posContain ParentNode
         {
             get
             {

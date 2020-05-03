@@ -11,7 +11,7 @@ namespace RobotNav
         static void Main(string[] args)
         {
            
-            LoadWorld load = new LoadWorld(@"C:\Users\murty\Documents\GitHub\RobotNavigation\RobotNav\RobotNav\test.txt");
+            LoadWorld load = new LoadWorld("test.txt");
 
             //Read test file and populate data to suitable variables
             load.loadData();
@@ -47,7 +47,7 @@ namespace RobotNav
                         break;
 
                     default:
-                        Console.WriteLine("No search method called " + args[1]);
+                        Console.WriteLine("No search method called ");
                         break;
                 }
             }

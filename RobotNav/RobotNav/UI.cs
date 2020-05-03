@@ -14,7 +14,7 @@ namespace RobotNav
         }
 
         //Draw process of expanding node
-        public void Draw(point2D initial, point2D goal, List<grid> wall, point2D visitedNode, int mapWidth, int mapLength)
+        public void Draw(posContain initial, posContain goal, List<grid> wall, posContain visitedNode, int mapWidth, int mapLength)
         {
             Console.Clear();
             bool wallDrawn = false;
@@ -68,7 +68,7 @@ namespace RobotNav
 
 
         //Draw solution
-        public void DrawPath(point2D initial, point2D goal, List<grid> wall, int mapWidth, int mapLength, List<point2D> path)
+        public void DrawPath(posContain initial, posContain goal, List<grid> wall, int mapWidth, int mapLength, List<posContain> path)
         {
             Console.Clear();
             bool wallDrawn = false;

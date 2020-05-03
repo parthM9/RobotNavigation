@@ -66,7 +66,7 @@ namespace RobotNav
             {
                 for (int j = 0; j < length; j++)
                 {
-                    grids.Add(new grid(new point2D(j, i), false));
+                    grids.Add(new grid(new posContain(j, i), false));
                 }
             }
 

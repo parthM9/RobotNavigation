@@ -10,12 +10,12 @@ namespace RobotNav
 {
     class navigator
     {
-        private point2D pos;
-        private point2D goalPos;
+        private posContain pos;
+        private posContain goalPos;
         private worldMap robotMap;
         private UI ui = new UI();
 
-        public point2D Pos
+        public posContain Pos
         {
             get
             {
@@ -31,13 +31,13 @@ namespace RobotNav
 
             List<int> coordinate = ifs.getIntFromString();
 
-            pos = new point2D(coordinate[0], coordinate[1]);
+            pos = new posContain(coordinate[0], coordinate[1]);
 
             ifs = new stringCon(goalState);
 
             coordinate = ifs.getIntFromString();
 
-            goalPos = new point2D(coordinate[0], coordinate[1]);
+            goalPos = new posContain(coordinate[0], coordinate[1]);
 
             robotMap = map;
         }
@@ -94,35 +94,35 @@ namespace RobotNav
             }
             else
             {
-                //Initialize data structure for open nodes and visited nodes
-                Stack<point2D> open = new Stack<point2D>();
-                List<point2D> visited = new List<point2D>();
+                //Initialize open nodes and visited nodes
+                Stack<posContain> open = new Stack<posContain>();
+                List<posContain> visited = new List<posContain>();
 
-                //Initialize expanding node
-                point2D visitedNode;
+                // expanding node
+                posContain visitedNode;
 
-                //Push the initial position in the open stack
+                //Pushing the initial position 
                 open.Push(pos);
 
                 while (open.Count != 0)
                 {
-                    //Visit a node in the open stack, popping the node out of the open stack
+                    //Visit a node in the open stack and then popping the node out of the open stack
                     visitedNode = open.Pop();
 
-                    //Visit a node and expand, adding the node to the visited list
+                    //Visit a node and expand then adding the node to the visited list
                     visited.Add(visitedNode);
 
-                    Debug.WriteLine("Expanding: " + visitedNode.Coordinate);
-                    //Initialize UI
+                    //Debug.WriteLine("Expanding: " + visitedNode.Coordinate);
+                 
                     ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
                     Thread.Sleep(200);
 
                     foreach (grid g in robotMap.Grids)
                     {
-                        //Verify the expanding grid is within the map
+                        //Check if the expanding grid is within the map
                         if ((visitedNode.X == g.Pos.X) && (visitedNode.Y == g.Pos.Y))
                         {
-                            //Verify if adjacent nodes are available
+                            //Check if adjacent nodes are available
                             if (g.Paths.Count != 0)
                             {
                                 foreach (path p in g.Paths)
@@ -130,9 +130,9 @@ namespace RobotNav
                                     //Repeated state checking
                                     if ((!visited.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y)) && !open.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
                                     {
-                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+                                        p.Location.Pos.ParentNode = new posContain(visitedNode);
                                         Debug.WriteLine(p.Location.Pos.Coordinate);
-                                        //Push adjacent nodes to the open frontier
+                                        //Push adjacent nodes to  open frontier
                                         open.Push(p.Location.Pos);
                                     }
                                 }
@@ -160,12 +160,12 @@ namespace RobotNav
             }
             else
             {
-                //Initialize data structure for open nodes and visited nodes
-                Queue<point2D> open = new Queue<point2D>();
-                List<point2D> visited = new List<point2D>();
+                //Initialize open nodes and visited nodes
+                Queue<posContain> open = new Queue<posContain>();
+                List<posContain> visited = new List<posContain>();
 
-                //Initialize expanding node
-                point2D visitedNode;
+                //expanding node
+                posContain visitedNode;
 
                 open.Enqueue(pos);
 
@@ -181,10 +181,10 @@ namespace RobotNav
 
                     foreach (grid g in robotMap.Grids)
                     {
-                        //Verify the expanding grid is within the map
+                        //Check the expanding grid is within the map
                         if ((visitedNode.X == g.Pos.X) && (visitedNode.Y == g.Pos.Y))
                         {
-                            //Verify if adjacent nodes are available
+                            //Check if adjacent nodes are available
                             if (g.Paths.Count != 0)
                             {
                                 foreach (path p in g.Paths)
@@ -192,7 +192,7 @@ namespace RobotNav
                                     //Repeated state checking
                                     if ((!visited.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y)) && !open.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
                                     {
-                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+                                        p.Location.Pos.ParentNode = new posContain(visitedNode);
 
                                         //Enqueue available paths to the frontier list
                                         open.Enqueue(p.Location.Pos);
@@ -225,11 +225,11 @@ namespace RobotNav
             }
             else
             {
-                //Initialize data structure for open nodes and visited nodes
-                List<point2D> open = new List<point2D>();
-                List<point2D> visited = new List<point2D>();
+                //Initialize open nodes and visited nodes
+                List<posContain> open = new List<posContain>();
+                List<posContain> visited = new List<posContain>();
 
-                point2D visitedNode;
+                posContain visitedNode;
                 open.Add(pos);
 
                 while (open.Count != 0)
@@ -259,7 +259,7 @@ namespace RobotNav
                                     //Repeated state checking
                                     if (!visited.Exists(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
                                     {
-                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+                                        p.Location.Pos.ParentNode = new posContain(visitedNode);
 
                                         //Calculate heuristic value h(n)
                                         p.Location.Pos.DistanceToGoal = Math.Sqrt(Math.Pow(goalPos.X - p.Location.Pos.X, 2) + Math.Pow(goalPos.Y - p.Location.Pos.Y, 2));
@@ -295,17 +295,17 @@ namespace RobotNav
             }
             else
             {
-                //Initialize data structure for open nodes and visited nodes
-                List<point2D> open = new List<point2D>();
-                List<point2D> visited = new List<point2D>();
+                //Initialize for open nodes and visited nodes
+                List<posContain> open = new List<posContain>();
+                List<posContain> visited = new List<posContain>();
 
-                //Initialize expanding node
-                point2D visitedNode;
+                //expanding node
+                posContain visitedNode;
 
                 //Put the initial position in the open list
                 open.Add(pos);
 
-                //Initial stationary cost
+                //stationary cost
                 pos.GScore = 0;
 
                 while (open.Count != 0)
@@ -326,10 +326,10 @@ namespace RobotNav
 
                     foreach (grid g in robotMap.Grids)
                     {
-                        //Verify the expanding grid is within the map
+                        //Check the expanding grid is within the map
                         if ((visitedNode.X == g.Pos.X) && (visitedNode.Y == g.Pos.Y))
                         {
-                            //Verify if adjacent nodes are available
+                            //Check if adjacent nodes are available
                             if (g.Paths.Count != 0)
                             {
                                 foreach (path p in g.Paths)
@@ -337,13 +337,13 @@ namespace RobotNav
                                     //Repeated state checking
                                     if ((!visited.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y)) && !open.Any(x => x.X == p.Location.Pos.X && x.Y == p.Location.Pos.Y))
                                     {
-                                        p.Location.Pos.ParentNode = new point2D(visitedNode);
+                                        p.Location.Pos.ParentNode = new posContain(visitedNode);
                                         //Calculate g(n) as the cost so far from the start to the current node
                                         p.Location.Pos.GScore = visitedNode.GScore + 1;
 
                                         //Calculate f(n) value
                                         p.Location.Pos.FScore = p.Location.Pos.GScore + Math.Sqrt(Math.Pow(goalPos.X - p.Location.Pos.X, 2) + Math.Pow(goalPos.Y - p.Location.Pos.Y, 2));
-                                        //p.Location.Pos.FScore = p.Location.Pos.GScore + Math.Abs(goalPos.X - p.Location.Pos.X) + Math.Abs(goalPos.Y - p.Location.Pos.Y);
+                                        
 
                                         //Add adjacent nodes to the open list
                                         open.Add(p.Location.Pos);
@@ -364,15 +364,15 @@ namespace RobotNav
                 return "No solution";
             }
         }
-        public string produceSolution(string method, point2D initial, point2D child, List<point2D> expanded)
+        public string produceSolution(string method, posContain initial, posContain child, List<posContain> expanded)
         {
             string solution = "";
-            List<point2D> path = new List<point2D>();
+            List<posContain> path = new List<posContain>();
             List<string> action = new List<string>();
 
             expanded.Reverse();
 
-            foreach (point2D p in expanded)
+            foreach (posContain p in expanded)
             {
                 if ((p.X == child.X) && (p.Y == child.Y))
                     path.Add(p);

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RobotNav.grid">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAEAAAAAAIAAAACAgAAAAIAAAAAAAAA=</HashCode>
+      <FileName>grid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.LoadWorld">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEEEABEAAAABQAAAAAACAAAAAAACAAQAAgAEEAAAAAA=</HashCode>
+      <FileName>LoadWorld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.navigator">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAIAAACAEAACAAAAgYAAAACAAAAIQgBAQAAAAAA=</HashCode>
+      <FileName>navigator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.path">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>path.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.posContain">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACABAAAgAAAAAEQAAADAAAAAgBgAAAQYAA=</HashCode>
+      <FileName>posContain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.Program">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.stringCon">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>stringCon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.UI">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RobotNav.worldMap">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAgAAJAAAACQEBAAEBAAAAAAAAAAAEEAAAAAAA=</HashCode>
+      <FileName>worldMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
