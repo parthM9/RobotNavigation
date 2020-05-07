@@ -11,11 +11,11 @@ namespace RobotNav
         static void Main(string[] args)
         {
            
-            LoadWorld load = new LoadWorld("test.txt");
+            LoadWorld load = new LoadWorld(args[0].ToLower()+".txt");
 
             //Read test file and populate data to suitable variables
             load.loadData();
-            load.printInfo();
+            //load.printInfo();
             worldMap Map = new worldMap(load.MapSize, load.Wall);
           
             navigator nav = new navigator(load.InitialPositon, load.GoalPosition, Map);
@@ -23,34 +23,37 @@ namespace RobotNav
 
             string val = "";
 
-            while (val != "0")
-            {
-                Console.WriteLine("What would you like to perform?");
-                Console.WriteLine("1.DFS \r\n2.BFS \r\n3.GBFS \r\n4.Astar");
-                Console.WriteLine("Enter the text value you wish to run(Eg.DFS)");
-              
+            
 
-                val = Console.ReadLine();
-                switch (val.ToLower())
+               
+                switch (args[1].ToLower())
                 {
                     case "dfs":
-                        Console.WriteLine(nav.DfsSearch());
+                        Console.WriteLine("Would you like GUI to be enabled (Not good with larger size)? Y/N ");
+                        val = Console.ReadLine();
+                        Console.WriteLine(nav.DfsSearch(val));
                         break;
                     case "bfs":
-                        Console.WriteLine(nav.BfsSearch());
+                    Console.WriteLine("Would you like GUI to be enabled (Not good with larger size)? Y/N ");
+                    val = Console.ReadLine();
+                    Console.WriteLine(nav.BfsSearch(val));
                         break;
                     case "gbfs":
-                        Console.WriteLine(nav.GbfsSearch());
+                    Console.WriteLine("Would you like GUI to be enabled (Not good with larger size)? Y/N ");
+                    val = Console.ReadLine();
+                    Console.WriteLine(nav.GbfsSearch(val));
                         break;
                     case "astar":
-                        Console.WriteLine(nav.AStar());
+                    Console.WriteLine("Would you like GUI to be enabled (Not good with larger size)? Y/N ");
+                    val = Console.ReadLine();
+                    Console.WriteLine(nav.AStar(val));
                         break;
 
                     default:
                         Console.WriteLine("No search method called ");
                         break;
                 }
-            }
+            
             Console.ReadLine();
         
         }
