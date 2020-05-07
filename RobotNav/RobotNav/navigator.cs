@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,7 +86,7 @@ namespace RobotNav
 
 
         //Depth-First Search
-        public string DfsSearch()
+        public string DfsSearch(string GUI)
         {
             if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
             {
@@ -113,9 +113,12 @@ namespace RobotNav
                     visited.Add(visitedNode);
 
                     //Debug.WriteLine("Expanding: " + visitedNode.Coordinate);
-                 
-                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
-                    Thread.Sleep(200);
+                    if (GUI == "Y")
+                    {
+                        ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                        Thread.Sleep(200);
+                    }
+                   
 
                     foreach (grid g in robotMap.Grids)
                     {
@@ -141,7 +144,7 @@ namespace RobotNav
                             //If solution is found
                             if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
                             {
-                                return produceSolution("DFS", Pos, goalPos, visited);
+                                return produceSolution("DFS", Pos, goalPos, visited,GUI);
                             }
                         }
                     }
@@ -152,7 +155,7 @@ namespace RobotNav
             }
         }
         //Breadth-First Search
-        public string BfsSearch()
+        public string BfsSearch(string GUI)
         {
             if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
             {
@@ -176,9 +179,11 @@ namespace RobotNav
                     visited.Add(visitedNode);
 
                     //Initialize UI
-                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
-                    Thread.Sleep(100);
-
+                    if (GUI == "Y")
+                    {
+                        ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                        Thread.Sleep(100);
+                    }
                     foreach (grid g in robotMap.Grids)
                     {
                         //Check the expanding grid is within the map
@@ -203,7 +208,7 @@ namespace RobotNav
                             //If solution is found
                             if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
                             {
-                                return produceSolution("BFS", Pos, goalPos, visited);
+                                return produceSolution("BFS", Pos, goalPos, visited,GUI);
                             }
                         }
                     }
@@ -216,7 +221,7 @@ namespace RobotNav
 
 
         //Greedy Best First Search
-        public string GbfsSearch()
+        public string GbfsSearch(string GUI)
         {
             //Return solution if initial position is goal
             if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
@@ -243,9 +248,11 @@ namespace RobotNav
                     visited.Add(visitedNode);
 
                     //Initialize UI
-                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
-                    Thread.Sleep(200);
-
+                    if (GUI == "Y")
+                    {
+                        ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                        Thread.Sleep(200);
+                    }
                     foreach (grid g in robotMap.Grids)
                     {
                         //Verify the expanding grid is within the map
@@ -273,7 +280,7 @@ namespace RobotNav
                             //If solution is found
                             if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
                             {
-                                return produceSolution("GBFS", Pos, goalPos, visited);
+                                return produceSolution("GBFS", Pos, goalPos, visited,GUI);
                             }
                         }
                     }
@@ -286,7 +293,7 @@ namespace RobotNav
 
 
         //A* Search
-        public string AStar()
+        public string AStar(string GUI)
         {
             //Return solution if initial position is goal
             if ((pos.X == goalPos.X) && (pos.Y == goalPos.Y))
@@ -321,9 +328,11 @@ namespace RobotNav
                     visited.Add(visitedNode);
 
                     //Initialize UI
-                    ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
-                    Thread.Sleep(100);
-
+                    if (GUI == "Y")
+                    {
+                        ui.Draw(pos, goalPos, robotMap.WallList, visitedNode, robotMap.Width, robotMap.Length);
+                        Thread.Sleep(100);
+                    }
                     foreach (grid g in robotMap.Grids)
                     {
                         //Check the expanding grid is within the map
@@ -354,7 +363,7 @@ namespace RobotNav
                             //If solution is found
                             if ((visitedNode.X == goalPos.X) && (visitedNode.Y == goalPos.Y))
                             {
-                                return produceSolution("A*", Pos, goalPos, visited);
+                                return produceSolution("A*", Pos, goalPos, visited,GUI);
                             }
                         }
                     }
@@ -364,7 +373,7 @@ namespace RobotNav
                 return "No solution";
             }
         }
-        public string produceSolution(string method, posContain initial, posContain child, List<posContain> expanded)
+        public string produceSolution(string method, posContain initial, posContain child, List<posContain> expanded,string GUI)
         {
             string solution = "";
             List<posContain> path = new List<posContain>();
@@ -427,9 +436,10 @@ namespace RobotNav
             {
                 solution = solution + a + "; ";
             }
-
-            ui.DrawPath(pos, goalPos, robotMap.WallList, robotMap.Width, robotMap.Length, path);
-
+            if (GUI == "Y")
+            {
+                ui.DrawPath(pos, goalPos, robotMap.WallList, robotMap.Width, robotMap.Length, path);
+            }
             return method + " " + expanded.Count() + " " + solution;
         }
     }
